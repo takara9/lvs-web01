@@ -1,0 +1,1 @@
+default["virtual_ipaddress1"]   = "161.202.132.84"
