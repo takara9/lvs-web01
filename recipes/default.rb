@@ -67,12 +67,15 @@ when 'centos','redhat'
   end
 
 
+  # ファイアウォールの設定
   if node['platform_version'].to_i == 6 then
-    #
+
+    # CentOS-6
     service "iptables" do
       action [ :enable, :start]
     end
-    # ファイアウォールの設定
+
+    # iptablesの設定
     template "/etc/sysconfig/iptables" do
       source "iptables.erb"
       owner "root"
@@ -83,13 +86,26 @@ when 'centos','redhat'
       })
       action :create
     end
+
     # 設定の有効化
     execute 'iptables-restore' do
       command 'iptables-restore < /etc/sysconfig/iptables'
       action :run
     end
+
   else
-    # 
+
+    # CentOS-7
+    script "Setup_firewalld" do
+      interpreter "bash"
+      user        "root"
+      code <<-EOL
+        firewall-cmd --permanent --zone=public --add-service=http
+        firewall-cmd --permanent --zone=public --add-service=https
+        firewall-cmd --reload
+        EOL
+    end
+
   end
 
   # 追加パッケージ
