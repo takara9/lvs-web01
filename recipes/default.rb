@@ -58,15 +58,6 @@ when 'ubuntu','debian'
     action :run
   end
 
-  #
-  # start lo:1 
-  #
-  execute 'start lo:1' do
-    command 'ifup lo:1'
-    action :run
-  end
-  
-
 # === RedHat系 ===
 when 'centos','redhat'
 
@@ -86,7 +77,7 @@ when 'centos','redhat'
     group "root"
     mode 0644
     variables({
-      :lvs_subnet => node['public_prim_subnet'],
+      :vip1 => node["virtual_ipaddress1"],
     })
     action :create
   end
@@ -98,15 +89,39 @@ when 'centos','redhat'
   end
 
   # 追加パッケージ
-  %w{
-    
-  }.each do |pkgname|
-    package "#{pkgname}" do
-      action :install
-    end
+  #%w{
+  #  
+  #}.each do |pkgname|
+  #  package "#{pkgname}" do
+  #    action :install
+  #  end
+  #end
+
+  #
+  # VIPループバックI/F追加
+  #
+  template "/etc/sysconfig/network-scripts/ifcfg-lo:1" do
+    source 'ifcfg-lo:1.erb'
+    owner "root"
+    group "root"
+    mode 0644
+    action :create
+    variables({
+      :vip1 => node["virtual_ipaddress1"],
+    })
   end
+
 end
 
+
+
+#
+# start lo:1 
+#
+execute 'start lo:1' do
+  command 'ifup lo:1'
+  action :run
+end
 
 
 #
