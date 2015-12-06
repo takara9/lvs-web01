@@ -32,7 +32,7 @@ when 'ubuntu','debian'
   end
 
   template "/etc/network/interfaces.d/lo:1" do
-    source 'lo:1'
+    source 'lo:1.erb'
     owner "root"
     group "root"
     mode 0644
