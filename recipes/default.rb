@@ -66,26 +66,30 @@ when 'centos','redhat'
     action :run
   end
 
-  service "iptables" do
-    action [ :enable, :start]
-  end
 
-  # ファイアウォールの設定
-  template "/etc/sysconfig/iptables" do
-    source "iptables.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    variables({
-      :vip1 => node["virtual_ipaddress1"],
-    })
-    action :create
-  end
-
-  # 設定の有効化
-  execute 'iptables-restore' do
-    command 'iptables-restore < /etc/sysconfig/iptables'
-    action :run
+  if node['platform_version'].to_i == 6 then
+    #
+    service "iptables" do
+      action [ :enable, :start]
+    end
+    # ファイアウォールの設定
+    template "/etc/sysconfig/iptables" do
+      source "iptables.erb"
+      owner "root"
+      group "root"
+      mode 0644
+      variables({
+        :vip1 => node["virtual_ipaddress1"],
+      })
+      action :create
+    end
+    # 設定の有効化
+    execute 'iptables-restore' do
+      command 'iptables-restore < /etc/sysconfig/iptables'
+      action :run
+    end
+  else
+    # 
   end
 
   # 追加パッケージ
