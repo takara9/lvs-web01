@@ -10,7 +10,7 @@ LVSのリアルサーバー側の設定のクックブックです。 DSR方式�
 ------------
 
 ### LVSサーバーの設定
-このURL(https://github.com/takara9/lvs01)にあるクックブックに対応するものです。
+このURL (https://github.com/takara9/lvs01) にあるクックブックに対応するものです。
 
 ### 確認済オペレーティング・システム
 - Ubuntu Linux 14.04 LTS Trusty Tahr - Minimal Install (64 bit) 
