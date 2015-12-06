@@ -57,6 +57,14 @@ when 'ubuntu','debian'
     end
     action :run
   end
+
+  #
+  # start lo:1 
+  #
+  execute 'start lo:1' do
+    command 'ifup lo:1'
+    action :run
+  end
   
 
 # === RedHat系 ===
