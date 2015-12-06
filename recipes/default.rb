@@ -101,6 +101,9 @@ end
 
 
 
+#
+# カーネルパラメータの変更
+#
 execute 'sysctl' do
   command '/sbin/sysctl -p'
   action :nothing
